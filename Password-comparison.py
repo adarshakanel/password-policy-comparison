@@ -1,35 +1,43 @@
 from zxcvbn import zxcvbn
-file1 = open("1-Google.txt")
-createNewFile1 = open("1-Google-zxcvbn.txt", "w")
+
+# files = ["1-Google.txt", "2-Amazon-50k.txt", "3-Facebook-50k.txt",
+#          "5-Reddit-50k.txt", "6-Live-50k.txt", "10-Myshopify-50k.txt"]
+files = ["1-Google.txt"]
+
+newfiles = []
+
+for file in files:
+    originalFileName = file.split(".")
+    newFileName = str(originalFileName[0]+"-zxcvbn."+originalFileName[1])
+    newfiles.append(newFileName)
+
+print(newfiles)
 
 
-def zxcvbn_result(line):
+def zxcvbn_result(line, newfile):
     try:
         results = zxcvbn(line, user_inputs=[])
-        print(results)
+        # print(results)
         sequence = results["sequence"]
-        score = results["score"]
-        guess = sequence[0]["guesses"]
-        pattern = sequence[0]["pattern"]
-        print("sequence: ", sequence)
-        print("guess: ", guess)
-        print("pattern: ", pattern)
-        print("score: ", score, "\n")
+        score = ", score:"+str(results["score"])
+        guess = ", guesses:"+str(sequence[0]["guesses"])
+        pattern = ", pattern:"+str(sequence[0]["pattern"])
+        password = "password:"+(str(line))
+        data = [password, score, guess, pattern]
+        newfile.writelines(data)
+        newfile.writelines("\n")
     except:
         return print("Not Happening\n")
 
 
-def compare(files):
-    # for file in files:
-    count = 0
-    for line in files:
-        # to test
-        if count > 500:
-            break
-        else:
-            count += 1
-        # print(input)
-        zxcvbn_result(line)
+def compare(file, newfile):
+    for line in file:
+        zxcvbn_result(line.strip(), newfile)
 
 
-compare(file1)
+for index, file in enumerate(files):
+    currentFile = open(file)
+    createNewFile = open(newfiles[index], "w")
+    compare(currentFile, createNewFile)
+    createNewFile.close()
+    currentFile.close()
