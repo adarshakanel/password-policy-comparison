@@ -98,7 +98,7 @@ results=[]
 for f in files:
     if (f.startswith("Results")):
     	results.append(f)
-    	shutil.move(f, dest1)
+    	shutil.move(f, destination1)
 #Move results files to one directory
 
 					
