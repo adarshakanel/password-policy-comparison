@@ -1,4 +1,6 @@
 import os
+from os import path
+import shutil
 from zxcvbn import zxcvbn
 
 #initialize empty lists for original and result files
@@ -54,8 +56,8 @@ def zxcvbn_result(lineInput):
 		tempOfflineSH = results['crack_times_seconds']['offline_slow_hashing_1e4_per_second']
 		## offline attack. assumes multiple attackers, proper user-unique salting, and a slow hash function w/ moderate work factor, such as bcrypt, scrypt, PBKDF2.
 
-		resultsRow = [(tempPass), (tempScore), (tempGuesses), (tempCalcTime), (tempOnlineRL), (tempOnlineNoRL), 
-					   (tempOfflineFH), (tempOfflineSH)]
+		resultsRow = [(tempPass), (tempScore), (tempGuesses), (tempCalcTime), 
+						(tempOnlineRL), (tempOnlineNoRL), (tempOfflineFH), (tempOfflineSH)]
 		return resultsRow
 	except:
 		return print("Error\n")
@@ -69,7 +71,7 @@ for i in range(0, limit):
 			print("Opening file: " + filesToBeDone[i])
 			print("Number of passwords in file: " + str(num_lines) +"\n")
 			print("Writing results to file: " + resultFiles[i])
-			tempheaders = "Password Score Guesses CalcTime\n"
+			tempheaders = "Password,Score,Guesses,CalcTime,OnlineRateLimited,OnlineNoRateLimited,OfflineFastHash,OfflineSlowhash\n"
 			outputFile.write(tempheaders)
 			print("\n")
 
@@ -86,6 +88,19 @@ for i in range(0, limit):
 					#Continue
 
 			print("Writing to file complete. If available, moving on to next file.")
+
+#resultDirectory = "Results1"
+if not os.path.exists('ResultsDirectory'):
+	os.mkdir('ResultsDirectory')
+files = os.listdir(currdirectory)
+destination1=currdirectory+"\ResultsDirectory"
+results=[]
+for f in files:
+    if (f.startswith("Results")):
+    	results.append(f)
+    	shutil.move(f, dest1)
+#Move results files to one directory
+
 					
 
 		
