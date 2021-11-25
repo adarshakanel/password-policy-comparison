@@ -2,27 +2,47 @@ import os
 from os import path
 import shutil
 from zxcvbn import zxcvbn
+import traceback
+import sys
+import glob
 
 #initialize empty lists for original and result files
 filesToBeDone = []
 resultFiles = []
 
 currdirectory = os.getcwd()
+print("Current working directory: " + currdirectory)
+
+if not glob.glob("*.txt"):
+	#anotha way: if len(glob.glob("*.txt")) == 0:
+  sys.exit('No text files found in the cwd. Exiting...')
+
 for file in os.listdir(currdirectory):
+	#Find all the original policy text files, put them into the list
+	#Can be *potentially* optimized
 	if file.endswith(".txt"):
 		filesToBeDone.append(file)
-
-print("Old files list: ")
+'''
+if os.path.exists('FilesDirectory'):
+	new = currdirectory + '\FilesDirectory'
+	os.chdir(new)
+	#"move" to inner directory 
+	for file in os.listdir(os.getcwd()):
+		filesToBeDone.append(file)
+os.chdir(currdirectory)
+'''
+print("List of files that will be processed: ")
 print(filesToBeDone)
-#Above supposed to contain OG pass policy files
 
 for eachOldFile in filesToBeDone:
-	a = 'Results'+ eachOldFile
+	#Create new files for storing results after running zxcvbn tests on policy files
+	#Example: "Policy1.txt" --> "Results-Policy1.txt"
+	a = 'Results-'+ eachOldFile
 	resultFiles.append(a)
+	#Do this for all old files and store the resultant files in the resultFiles list.
 
-print("New files(results) list:" )
+print("List of files containing the result(s):" )
 print(resultFiles)
-print('\n')
 
 limit = len(filesToBeDone)
 print("Number of files in current directory to be processed: " + str(limit))
@@ -59,10 +79,14 @@ def zxcvbn_result(lineInput):
 		resultsRow = [(tempPass), (tempScore), (tempGuesses), (tempCalcTime), 
 						(tempOnlineRL), (tempOnlineNoRL), (tempOfflineFH), (tempOfflineSH)]
 		return resultsRow
-	except:
-		return print("Error\n")
 
-for i in range(0, limit):
+	except Exception: 
+		#Yeah idk about this part but oh well, should be helpful still
+		print("Error:\n")
+		print(traceback.format_exc())
+		traceback.print_exc()
+
+for i in range(0, 1):
 	#A bit inefficient way in which all the OG .txt files are read and the results files are produced 
 
 	with open(filesToBeDone[i], 'r') as inputFile, open(resultFiles[i], 'w') as outputFile:
@@ -77,7 +101,7 @@ for i in range(0, limit):
 
 			for indexRowNum, inputFileRow in enumerate(inputFile):
 				
-				if indexRowNum in range(0, num_lines):
+				if indexRowNum in range(0, 2):
 					actualPass = str(inputFileRow.strip())
 					lol = zxcvbn_result(actualPass)
 					for item in lol:
@@ -89,24 +113,32 @@ for i in range(0, limit):
 
 			print("Writing to file complete. If available, moving on to next file.")
 
+#Now, to clean up everything, move resultant files to a new folder (created if doesn't already exist)
 #resultDirectory = "Results1"
+
 if not os.path.exists('ResultsDirectory'):
+	#Self-explanatory
 	os.mkdir('ResultsDirectory')
+
 files = os.listdir(currdirectory)
 destination1=currdirectory+"\ResultsDirectory"
-results=[]
 for f in files:
-    if (f.startswith("Results")):
-    	results.append(f)
+    if (f.startswith("Results-")):
     	shutil.move(f, destination1)
-#Move results files to one directory
-
-					
-
-		
+#All done!		
 
 #References:
 #Primary source --> https://github.com/dwolfhub/zxcvbn-python
 #Another one --> https://github.com/dropbox/zxcvbn
 #https://stackoverflow.com/questions/21414639/convert-timedelta-to-floating-point
 #https://stackoverflow.com/questions/3845362/how-can-i-check-if-a-key-exists-in-a-dictionary
+#https://linuxhandbook.com/python-write-list-file/
+#https://pythonguides.com/python-write-a-list-to-csv/
+#https://codefather.tech/blog/write-list-to-a-file-in-python/
+#https://stackoverflow.com/questions/845058/how-to-get-line-count-of-a-large-file-cheaply-in-python?page=2&tab=Votes
+#https://www.w3schools.com/python/python_for_loops.asp
+#https://stackabuse.com/python-get-number-of-elements-in-a-list/
+#https://linuxize.com/post/python-get-change-current-working-directory/#:~:text=To%20find%20the%20current%20working,chdir(path)%20.
+#https://thispointer.com/python-how-to-get-list-of-files-in-directory-and-sub-directories/
+#https://stackoverflow.com/questions/3702675/how-to-catch-and-print-the-full-exception-traceback-without-halting-exiting-the
+#https://stackoverflow.com/questions/62255438/deleting-files-of-specific-extension-using-in-python
