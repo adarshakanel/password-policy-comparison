@@ -86,7 +86,7 @@ def zxcvbn_result(lineInput):
 		print(traceback.format_exc())
 		traceback.print_exc()
 
-for i in range(0, 1):
+for i in range(0, limit):
 	#A bit inefficient way in which all the OG .txt files are read and the results files are produced 
 
 	with open(filesToBeDone[i], 'r') as inputFile, open(resultFiles[i], 'w') as outputFile:
@@ -101,7 +101,7 @@ for i in range(0, 1):
 
 			for indexRowNum, inputFileRow in enumerate(inputFile):
 				
-				if indexRowNum in range(0, 2):
+				if indexRowNum in range(0, num_lines):
 					actualPass = str(inputFileRow.strip())
 					lol = zxcvbn_result(actualPass)
 					for item in lol:
