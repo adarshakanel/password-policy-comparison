@@ -20,7 +20,7 @@ if not glob.glob("*.txt"):
 for file in os.listdir(currdirectory):
 	#Find all the original policy text files, put them into the list
 	#Can be *potentially* optimized
-	if file.endswith(".txt"):
+	if ("-zxcvbn" not in file) and (file.endswith(".txt"))
 		filesToBeDone.append(file)
 '''
 if os.path.exists('FilesDirectory'):
