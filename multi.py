@@ -14,33 +14,64 @@ import concurrent.futures
 
 start_time = time.monotonic()
 
+root = os.getcwd()	#type: String
+
 #initialize empty lists for original and result files
 filesToBeDone = []
 resultFiles = []
 
-currdirectory = os.getcwd()
-print("Current working directory: " + currdirectory)
+try:
+	folderName = input("Enter folder NAME that contains the UNprocessed text files.\nCARE CAPITALIZATION AND SPELLING!: ")
+except:
+	#Trying to accept blank inputs, idk how otherwise, welcome 4 ideas
+	folderName = None
 
-if not glob.glob("*.txt"):
+if (folderName is None) or (len(folderName)==0) or (len(folderName) == 1) :
+	print("Checking the current working directory.")
+	temp1 = root
+	if not glob.glob("*.txt"):
 	#anotha way: if len(glob.glob("*.txt")) == 0:
 	#No .txt files found in cwd, exit program
-  sys.exit('No text files found in the cwd. Exiting...')
+		sys.exit('No text files found in the cwd. Exiting program.')
 
-for file in os.listdir(currdirectory):
+	for file in os.listdir(temp1):
 	#Find all the original policy text files, put them into the list
-	#Can be *potentially* optimized
-	if ("-zxcvbn" not in file) and ("Results" not in file) and (file.endswith(".txt")):
-		filesToBeDone.append(file)
+	#Can be *potentially* optimized (actually nvm: https://www.peterbe.com/plog/fastest-filename-extension-in-python)
+		if ("-zxcvbn" not in file) and ("Results" not in file) and (file.endswith(".txt")):
+			filesToBeDone.append(file)
+else:
+	temp1 = root + '/' + folderName
 
-'''
-if os.path.exists('FilesDirectory'):
-	new = currdirectory + '\FilesDirectory'
-	os.chdir(new)
-	#"move" to inner directory 
-	for file in os.listdir(os.getcwd()):
-		filesToBeDone.append(file)
-os.chdir(currdirectory)
-'''
+if(temp1!=root):
+	if (os.path.exists(temp1)):
+		print("Folder exists. Traversing it.")
+		os.chdir(temp1)
+		#Change working directory to sub-folder 
+		if not glob.glob("*.txt"):
+			#anotha way: if len(glob.glob("*.txt")) == 0:
+			#No .txt files found in cwd, exit program
+			sys.exit('No text files found in the cwd. Exiting...')
+		else:
+			for filename in os.listdir(temp1):
+			#Find all the original policy text files, put them into the list
+			#Can be *potentially* optimized
+				if (("-zxcvbn" not in filename) and ("Results" not in filename) and (filename.endswith(".txt"))):
+					#Ensure proper naming is followed to avoid including unneccessary files...
+					print("File: " + str(filename) + " found! Adding to list and moving to 'working' folder!")
+					filesToBeDone.append(filename)
+					filename = os.path.join(temp1, filename)
+					destination = root
+					shutil.copy2(filename, destination)
+	else:
+		sys.exit("Folder not found, run this file again and double-check the name of the folder!")
+
+
+
+#https://www.peterbe.com/plog/fastest-filename-extension-in-python
+#https://stackoverflow.com/questions/51528103/python-copying-specific-files-from-a-list-into-a-new-folder
+
+os.chdir(root)
+
 print("List of files that will be processed: ")
 print(filesToBeDone)
 
@@ -72,11 +103,11 @@ if not os.path.exists('ResultsDirectory-v2'):
 	#Self-explanatory
 	os.mkdir('ResultsDirectory-v2')
 
-files = os.listdir(currdirectory)
-destination1=currdirectory+"\ResultsDirectory-v2"
+files = os.listdir(root)
+destination1=root+"\ResultsDirectory-v2"
 for f in files:
-    if (("Results" in f) or (f.startswith("converter"))):
-    	shutil.move(f, destination1)
+	if (("Results" in f) or (f.startswith("converter"))):
+		shutil.move(f, destination1)
 
 print("Moving files to results directory complete. Starting conversion to csv...\n")
 os.chdir(destination1)
