@@ -9,24 +9,24 @@ def zxcvbn_result(lineInput):
 		results = zxcvbn(lineInput)
 		#sequence = results["sequence"]
 		tempPass = results['password']
-		#The input password (obtained by extracting line by line from the policy text files)
+		#The input password (obtained by extracting line by line from the policy text files), type: String
 		tempScore = results['score']
-		#Integer from 0-4, 0 being too guessable, 4 being very unguessable
+		#Integer from 0-4, 0 being too guessable, 4 being very unguessable, type: Integer
 		tempCalcTime = results['calc_time']
-		tempCalcTime = tempCalcTime.total_seconds()
+		tempCalcTime = float(tempCalcTime.total_seconds())
 		#how long it took zxcvbn to calculate an answer, in milliseconds. Since tempCalcTime is originally a 
 		# datetime.TimeDelta type, converted to number of seconds contained in the duration using total_seconds()
 		tempGuesses = results['guesses']
-		#estimated guesses needed to crack password
+		#estimated guesses needed to crack password, type: Float
 
 		#Following are estimations of different scenarios to 'crack' the password
-		tempOnlineRL = results['crack_times_seconds']['online_throttling_100_per_hour']
+		tempOnlineRL = float(results['crack_times_seconds']['online_throttling_100_per_hour'])
 		# online attack on a service that ratelimits password auth attempts.
-		tempOnlineNoRL = results['crack_times_seconds']['online_no_throttling_10_per_second']
+		tempOnlineNoRL = float(results['crack_times_seconds']['online_no_throttling_10_per_second'])
 		#  online attack on a service that doesn't ratelimit, or where an attacker has outsmarted ratelimiting.
-		tempOfflineFH = results['crack_times_seconds']['offline_fast_hashing_1e10_per_second']
+		tempOfflineFH = float(results['crack_times_seconds']['offline_fast_hashing_1e10_per_second'])
 		#offline attack with user-unique salting but a fast hash function like SHA-1, SHA-256 or MD5
-		tempOfflineSH = results['crack_times_seconds']['offline_slow_hashing_1e4_per_second']
+		tempOfflineSH = float(results['crack_times_seconds']['offline_slow_hashing_1e4_per_second'])
 		## offline attack. assumes multiple attackers, proper user-unique salting, and a slow hash function w/ moderate work factor, such as bcrypt, scrypt, PBKDF2.
 
 		resultsRow = [(tempPass), (tempScore), (tempGuesses), (tempCalcTime), 

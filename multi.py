@@ -68,12 +68,12 @@ print('Total operation time in seconds: ', time.monotonic() - start_time)
 #Now, to clean up everything, move resultant files to a new folder (created if doesn't already exist)
 #resultDirectory = "Results1"
 
-if not os.path.exists('ResultsDirectory'):
+if not os.path.exists('ResultsDirectory-v2'):
 	#Self-explanatory
-	os.mkdir('ResultsDirectory')
+	os.mkdir('ResultsDirectory-v2')
 
 files = os.listdir(currdirectory)
-destination1=currdirectory+"\ResultsDirectory"
+destination1=currdirectory+"\ResultsDirectory-v2"
 for f in files:
     if (("Results" in f) or (f.startswith("converter"))):
     	shutil.move(f, destination1)

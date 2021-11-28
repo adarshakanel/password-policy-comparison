@@ -34,7 +34,7 @@ for file in os.listdir(currdirectory):
 	if ("-zxcvbn" not in file) and ("Results-" not in file) and (file.endswith(".txt")):
 		listToBeDone.append(file)
 
-argslist = ['1-Google-50k.txt', '5-Reddit-50k.txt']#Testing list...
+#argslist = ['1-Google-50k.txt', '5-Reddit-50k.txt']#Testing list...
 
 '''if __name__ == "__main__":
 	t = perf_counter()
