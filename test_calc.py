@@ -51,8 +51,6 @@ def findValue():
         result.writelines(
             "file_name, average_guess, average_guess_log_10, std_guess, average_score, std_score")
         for file in filesToBeDone:
-            score = 0
-            guess = 0
             stdScoreArray = []
             stdGuessArray = []
             with open("ResultsDirectory-v2/" + file, 'r') as inputFile:
@@ -60,17 +58,14 @@ def findValue():
                     if index == 0:
                         continue
                     splitString = line.split(",")
-                    # print(splitString)
-                    score += float(splitString[1])
                     stdScoreArray.append(float(splitString[1]))
-                    guess += math.ceil(float(splitString[2]))
-                    stdGuessArray.append(math.ceil(float(splitString[2])))
+                    stdGuessArray.append(float(splitString[2]))
                 fileLength = len(
                     open("ResultsDirectory-v2/" + file, 'r').readlines())
-                # print(guess)
+                score = sum(stdScoreArray)
+                guess = sum(stdGuessArray)
                 averageGuess = findAverageGuess(guess, fileLength)
                 averageScore = findAverageScore(score, fileLength)
-                print(score, fileLength)
                 stdScore = findStd(stdScoreArray, fileLength, averageScore)
                 stdGuess = findStd(stdGuessArray, fileLength, averageGuess)
                 data = [inputFile.name.split("/")[1],
