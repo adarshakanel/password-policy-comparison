@@ -40,6 +40,7 @@ if (folderName is None) or (len(folderName)==0) or (len(folderName) == 1) :
 		if ("-zxcvbn" not in file) and ("Results" not in file) and (file.endswith(".txt")):
 			filesToBeDone.append(file)
 else:
+	#Create new string variable that contains root file path (from os.getcwd()) and joins '/'
 	temp1 = root + '/' + folderName
 
 if(temp1!=root):
@@ -57,12 +58,11 @@ if(temp1!=root):
 			#Can be *potentially* optimized
 				if (("-zxcvbn" not in filename) and ("Results" not in filename) and (filename.endswith(".txt"))):
 					#Ensure proper naming is followed to avoid including unneccessary files...
-					#print("File: " + str(filename) + " found! Adding to list and moving to 'working' folder!")
+					print("File: " + str(filename) + " found! Adding to list and moving to 'working' folder!")
 					filesToBeDone.append(filename)
 					filename = os.path.join(temp1, filename)
 					destination = root
 					shutil.copy2(filename, destination)
-					#Copy the files from this folder to the source directory/root for processing zxcvbn results
 	else:
 		sys.exit("Folder not found, run this file again and double-check the name of the folder!")
 
@@ -89,10 +89,10 @@ print(resultFiles)
 limit = len(filesToBeDone)
 print("Number of eligible files in current directory to be processed: " + str(limit))
 
-tempTry = filesToBeDone[0:2]
+just4Yahoo = ['8-Yahoo.txt']#Just for no.8
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
-	l = list(executor.map(lambda inputfiles: lmao(inputfiles), filesToBeDone))	
+	l = list(executor.map(lambda inputfiles: lmao(inputfiles), just4Yahoo))	
 	print("Writing to file complete. If available, moving on to next file.")
 		
 print('Total operation time in seconds: ', time.monotonic() - start_time)
@@ -100,19 +100,23 @@ print('Total operation time in seconds: ', time.monotonic() - start_time)
 #Now, to clean up everything, move resultant files to a new folder (created if doesn't already exist)
 #resultDirectory = "Results1"
 
-if not os.path.exists('ResultsDirectory-v2'):
+if not os.path.exists('ResultsDirectory-v0'):
 	#Self-explanatory
-	os.mkdir('ResultsDirectory-v2')
+	os.mkdir('ResultsDirectory-v0')
 
 files = os.listdir(root)
-destination1=root+"\ResultsDirectory-v2"
+destination1=root+"\ResultsDirectory-v0"
 for f in files:
-	if (("Results" in f) or (f.startswith("converter"))):
+	#Check cwd which is where the processed resultant files are stored
+	#temporarily...
+	if ("Results" in f):
 		shutil.move(f, destination1)
+	if f.startswith("converter"):
+		shutil.copy2(f, destination1)
 
 print("Moving files to results directory complete. Starting conversion to csv...\n")
 os.chdir(destination1)
-exec(open('converter.py').read())
+#exec(open('converter.py').read())
 print("Operation finished.")
 print('Total operation time in seconds: ', time.monotonic() - start_time)
 

@@ -20,10 +20,17 @@ def lmao(inputfile):
 			if indexRowNum in range(0, num_lines):
 				actualPass = str(inputFileRow.strip())
 				lol = zxcvbn_result(actualPass)
+				count4Last = 0
+				lastElement = (len(lol) - 1)
 				for item in lol:
+					if(count4Last != lastElement):
 						outputFile.write(str(item) + ',')
 						#Also includes a final ',', has to be removed/discarded for further computations involving output files
 						#Format of result: Pass,Score,Guesses,CalcTime, etc.
+						count4Last += 1
+					else:
+						#Last element, we dont want a trailing ','
+						outputFile.write((str(item)))
 				outputFile.writelines('\n')
 
 listToBeDone=[]
