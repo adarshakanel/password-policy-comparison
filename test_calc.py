@@ -29,11 +29,11 @@ for file in os.listdir(currdirectory):
 
 
 def findAverageScore(score, index):
-    return int(math.ceil(score / index))
+    return score / index
 
 
 def findAverageGuess(guess, index):
-    return int(math.ceil(guess/index))
+    return guess/index
 
 
 def findStd(stdArray, fileSize, average):
@@ -61,8 +61,8 @@ def findValue():
                         continue
                     splitString = line.split(",")
                     # print(splitString)
-                    score += math.ceil(float(splitString[1]))
-                    stdScoreArray.append(math.ceil(float(splitString[1])))
+                    score += float(splitString[1])
+                    stdScoreArray.append(float(splitString[1]))
                     guess += math.ceil(float(splitString[2]))
                     stdGuessArray.append(math.ceil(float(splitString[2])))
                 fileLength = len(
@@ -70,6 +70,7 @@ def findValue():
                 # print(guess)
                 averageGuess = findAverageGuess(guess, fileLength)
                 averageScore = findAverageScore(score, fileLength)
+                print(score, fileLength)
                 stdScore = findStd(stdScoreArray, fileLength, averageScore)
                 stdGuess = findStd(stdGuessArray, fileLength, averageGuess)
                 data = [inputFile.name.split("/")[1],
