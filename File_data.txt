@@ -1,0 +1,2 @@
+file_name, average_guess, average_score
+Results-1-Google-50k.txt: 41997913365721489284547708190720, 3
