@@ -55,7 +55,7 @@ def findStd(stdArray, fileSize, average):
 def findValue():
     with open(resultFiles, 'w') as result:
         result.writelines(
-            "file_name, average_guess, median_average, average_guess_log_10, std_guess, average_score, median_score, std_score, average_guess_time, guess_time_std")
+            "file_name, average_guess, median_average, average_guess_log_10, std_guess, average_score, median_score, std_score, average_guess_time, median_guess_time, guess_time_std")
         for file in filesToBeDone:
             stdScoreArray = []
             stdGuessArray = []
@@ -80,10 +80,11 @@ def findValue():
                 stdGuess = findStd(stdGuessArray, fileLength, averageGuess)
                 medianGuess = findMedian(stdGuessArray)
                 medianScore = findMedian(stdScoreArray)
+                medianGuessTime = findMedian(stdGuessTimeArray)
                 stdGuessTime = findStd(
                     stdGuessTimeArray, fileLength, averageGuess)
                 fileData = [averageGuess, medianGuess, math.log(averageGuess, 10),
-                            stdGuess, averageScore, medianScore, stdScore, averageGuessTime, stdGuessTime]
+                            stdGuess, averageScore, medianScore, stdScore, averageGuessTime, medianGuessTime, stdGuessTime]
                 data = [inputFile.name.split("/")[1], ": "]
                 for item in fileData:
                     data.append(str(item) + ", ")
