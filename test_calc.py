@@ -28,12 +28,8 @@ for file in os.listdir(currdirectory):
         filesToBeDone.append(file)
 
 
-def findAverageScore(score, index):
-    return score / index
-
-
-def findAverageGuess(guess, index):
-    return guess/index
+def findAverage(numerator, index):
+    return numerator / index
 
 
 def findStd(stdArray, fileSize, average):
@@ -49,10 +45,11 @@ def findStd(stdArray, fileSize, average):
 def findValue():
     with open(resultFiles, 'w') as result:
         result.writelines(
-            "file_name, average_guess, average_guess_log_10, std_guess, average_score, std_score")
+            "file_name, average_guess, average_guess_log_10, std_guess, average_score, std_score, average_guess_time, guess_time_std")
         for file in filesToBeDone:
             stdScoreArray = []
             stdGuessArray = []
+            stdGuessTimeArray = []
             with open("ResultsDirectory-v2/" + file, 'r') as inputFile:
                 for index, line in enumerate(inputFile):
                     if index == 0:
@@ -60,26 +57,24 @@ def findValue():
                     splitString = line.split(",")
                     stdScoreArray.append(float(splitString[1]))
                     stdGuessArray.append(float(splitString[2]))
+                    stdGuessTimeArray.append(float(splitString[3]))
                 fileLength = len(
                     open("ResultsDirectory-v2/" + file, 'r').readlines())
                 score = sum(stdScoreArray)
                 guess = sum(stdGuessArray)
-                averageGuess = findAverageGuess(guess, fileLength)
-                averageScore = findAverageScore(score, fileLength)
+                guessTime = sum(stdGuessTimeArray)
+                averageGuess = findAverage(guess, fileLength)
+                averageScore = findAverage(score, fileLength)
+                averageGuessTime = findAverage(guessTime, fileLength)
                 stdScore = findStd(stdScoreArray, fileLength, averageScore)
                 stdGuess = findStd(stdGuessArray, fileLength, averageGuess)
-                data = [inputFile.name.split("/")[1],
-                        ": ",
-                        str(averageGuess),
-                        ", ",
-                        str(math.log(averageGuess, 10)),
-                        ", ",
-                        str(stdGuess),
-                        ", ",
-                        str(averageScore),
-                        ", ",
-                        str(stdScore)
-                        ]
+                stdGuessTime = findStd(
+                    stdGuessTimeArray, fileLength, averageGuess)
+                fileData = [averageGuess, math.log(averageGuess, 10),
+                            stdGuess, averageScore, stdScore, averageGuessTime, stdGuessTime]
+                data = [inputFile.name.split("/")[1], ": "]
+                for item in fileData:
+                    data.append(str(item) + ", ")
                 result.writelines("\n")
                 result.writelines(data)
         result.close()
