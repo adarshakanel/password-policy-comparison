@@ -57,11 +57,12 @@ if(temp1!=root):
 			#Can be *potentially* optimized
 				if (("-zxcvbn" not in filename) and ("Results" not in filename) and (filename.endswith(".txt"))):
 					#Ensure proper naming is followed to avoid including unneccessary files...
-					print("File: " + str(filename) + " found! Adding to list and moving to 'working' folder!")
+					#print("File: " + str(filename) + " found! Adding to list and moving to 'working' folder!")
 					filesToBeDone.append(filename)
 					filename = os.path.join(temp1, filename)
 					destination = root
 					shutil.copy2(filename, destination)
+					#Copy the files from this folder to the source directory/root for processing zxcvbn results
 	else:
 		sys.exit("Folder not found, run this file again and double-check the name of the folder!")
 
