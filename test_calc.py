@@ -13,7 +13,7 @@ import math
 filesToBeDone = []
 resultFiles = "File_data.txt"
 
-currdirectory = os.getcwd()
+currdirectory = os.getcwd()+"\ResultsDirectory-v2"
 
 print("Current working directory: " + currdirectory)
 
@@ -24,7 +24,7 @@ if not glob.glob("*.txt"):
 for file in os.listdir(currdirectory):
     # Find all the original policy text files, put them into the list
     # Can be *potentially* optimized
-    if ("-zxcvbn" not in file) and (file.endswith(".txt") and (file.startswith("Results-"))):
+    if ("-zxcvbn" not in file) and (file.endswith("Results.txt")):
         filesToBeDone.append(file)
 
 
@@ -36,26 +36,54 @@ def findAverageGuess(guess, index):
     return int(math.ceil(guess/index))
 
 
+def findStd(stdArray, fileSize, average):
+    # print(stdArray)
+    numerator = 0
+    for element in stdArray:
+        summation = element - average
+        numerator += summation**2
+    frac = numerator / fileSize
+    return math.sqrt(frac)
+
+
 def findValue():
-    score = 0
-    guess = 0
     with open(resultFiles, 'w') as result:
-        result.writelines("file_name, average_guess, average_score")
+        result.writelines(
+            "file_name, average_guess, average_guess_log_10, std_guess, average_score, std_score")
         for file in filesToBeDone:
-            with open(file, 'r') as inputFile:
+            score = 0
+            guess = 0
+            stdScoreArray = []
+            stdGuessArray = []
+            with open("ResultsDirectory-v2/" + file, 'r') as inputFile:
                 for index, line in enumerate(inputFile):
                     if index == 0:
                         continue
                     splitString = line.split(",")
+                    # print(splitString)
                     score += math.ceil(float(splitString[1]))
+                    stdScoreArray.append(math.ceil(float(splitString[1])))
                     guess += math.ceil(float(splitString[2]))
-                fileLength = len(open(file, 'r').readlines())
-                print(guess)
-                data = [inputFile.name,
+                    stdGuessArray.append(math.ceil(float(splitString[2])))
+                fileLength = len(
+                    open("ResultsDirectory-v2/" + file, 'r').readlines())
+                # print(guess)
+                averageGuess = findAverageGuess(guess, fileLength)
+                averageScore = findAverageScore(score, fileLength)
+                stdScore = findStd(stdScoreArray, fileLength, averageScore)
+                stdGuess = findStd(stdGuessArray, fileLength, averageGuess)
+                data = [inputFile.name.split("/")[1],
                         ": ",
-                        str(findAverageGuess(guess, fileLength)),
+                        str(averageGuess),
                         ", ",
-                        str(findAverageScore(score, fileLength))]
+                        str(math.log(averageGuess, 10)),
+                        ", ",
+                        str(stdGuess),
+                        ", ",
+                        str(averageScore),
+                        ", ",
+                        str(stdScore)
+                        ]
                 result.writelines("\n")
                 result.writelines(data)
         result.close()
