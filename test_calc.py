@@ -32,6 +32,16 @@ def findAverage(numerator, index):
     return numerator / index
 
 
+def findMedian(array):
+    array.sort()
+    array_length = len(array)
+    middle_index = array_length/2
+    if array_length % 2 == 0:
+        return array[int(middle_index)]
+    else:
+        return findAverage(array[math.floor(middle_index)] + array[math.ceil(middle_index)], 2)
+
+
 def findStd(stdArray, fileSize, average):
     # print(stdArray)
     numerator = 0
@@ -45,7 +55,7 @@ def findStd(stdArray, fileSize, average):
 def findValue():
     with open(resultFiles, 'w') as result:
         result.writelines(
-            "file_name, average_guess, average_guess_log_10, std_guess, average_score, std_score, average_guess_time, guess_time_std")
+            "file_name, average_guess, median_average, average_guess_log_10, std_guess, average_score, median_score, std_score, average_guess_time, guess_time_std")
         for file in filesToBeDone:
             stdScoreArray = []
             stdGuessArray = []
@@ -68,10 +78,12 @@ def findValue():
                 averageGuessTime = findAverage(guessTime, fileLength)
                 stdScore = findStd(stdScoreArray, fileLength, averageScore)
                 stdGuess = findStd(stdGuessArray, fileLength, averageGuess)
+                medianGuess = findMedian(stdGuessArray)
+                medianScore = findMedian(stdScoreArray)
                 stdGuessTime = findStd(
                     stdGuessTimeArray, fileLength, averageGuess)
-                fileData = [averageGuess, math.log(averageGuess, 10),
-                            stdGuess, averageScore, stdScore, averageGuessTime, stdGuessTime]
+                fileData = [averageGuess, medianGuess, math.log(averageGuess, 10),
+                            stdGuess, averageScore, medianScore, stdScore, averageGuessTime, stdGuessTime]
                 data = [inputFile.name.split("/")[1], ": "]
                 for item in fileData:
                     data.append(str(item) + ", ")
