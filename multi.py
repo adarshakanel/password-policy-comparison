@@ -6,7 +6,7 @@ import glob
 import time
 import threading
 from queue import Queue
-from just import zxcvbn_result
+from zxcvbnagent import zxcvbn_result
 from time import perf_counter
 from readwrite import lmao
 from concurrent.futures import ThreadPoolExecutor
