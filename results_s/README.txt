@@ -1,0 +1,1 @@
+Format: password, score, guesses, guesses_log10
