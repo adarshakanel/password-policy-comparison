@@ -21,8 +21,8 @@ filesToBeDone = []
 resultFiles = []
 
 try:
-	folderName = input("Enter folder NAME that contains the UNprocessed text files.\nCARE CAPITALIZATION AND SPELLING!: ")
-	resultfolderName = input("Enter name of the folder that will contain the results: )
+	folderName = input("Enter folder name that contains the UNprocessed text files.\nCARE CAPITALIZATION AND SPELLING!\nLeave blank or put 0 if files are in the current directory: ")
+	resultfolderName = input("Enter name of the folder that will contain the results: ")
 except:
 	#Trying to accept blank inputs, idk how otherwise, welcome 4 ideas
 	folderName = None
@@ -43,6 +43,19 @@ if (folderName is None) or (len(folderName)==0) or (len(folderName) == 1) :
 else:
 	#Create new string variable that contains root file path (from os.getcwd()) and joins '/'
 	temp1 = root + '/' + folderName
+
+if (resultfolderName is None) or (len(resultfolderName) == 0) or (len(resultfolderName) == 1):
+	tempdest2 = root + '/' + resultfolderName
+	if not os.path.exists(tempdest2):
+	#Creates new folder for storing results and cleaning up the working folder
+		os.mkdir(resultfolderName)
+
+else:
+	tempdest2 = root+"\ResultsDirectory-temp"
+	if not os.path.exists(tempdest2):
+	#Creates new folder for storing results and cleaning up the working folder
+		os.mkdir('ResultsDirectory-temp')
+
 
 if(temp1!=root):
 	if (os.path.exists(temp1)):
@@ -90,7 +103,7 @@ print(resultFiles)
 limit = len(filesToBeDone)
 print("Number of eligible files in current directory to be processed: " + str(limit))
 
-just4Yahoo = ['8-Yahoo.txt']#Just for no.8
+just4Yahoo = ['4-Yahoo-50K.txt']#Just for no.8
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
 	l = list(executor.map(lambda inputfiles: lmao(inputfiles), just4Yahoo))	
@@ -100,10 +113,6 @@ print('Total operation time in seconds: ', time.monotonic() - start_time)
 
 #Now, to clean up everything, move resultant files to a new folder (created if doesn't already exist)
 #resultDirectory = "Results1"
-tempdest2 = root + '/' + resultfolderName
-if not os.path.exists(tempdest2):
-	#Self-explanatory
-	os.mkdir('resultfolderName')
 
 files = os.listdir(root)
 #destination1=root+"\ResultsDirectory-v0"
