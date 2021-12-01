@@ -48,13 +48,14 @@ if (resultfolderName is None) or (len(resultfolderName) == 0) or (len(resultfold
 	tempdest2 = root + '/' + resultfolderName
 	if not os.path.exists(tempdest2):
 	#Creates new folder for storing results and cleaning up the working folder
-		os.mkdir(resultfolderName)
+		os.mkdir('ResultsDirectory-temp')
+		
 
 else:
 	tempdest2 = root+"\ResultsDirectory-temp"
 	if not os.path.exists(tempdest2):
 	#Creates new folder for storing results and cleaning up the working folder
-		os.mkdir('ResultsDirectory-temp')
+		os.mkdir(resultfolderName)
 
 
 if(temp1!=root):
