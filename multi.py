@@ -54,7 +54,9 @@ if (folderName is None) or (len(folderName)==0) or (len(folderName) == 1) :
 	for file in os.listdir(temp1):
 	#Find all the original policy text files, put them into the list
 	#Can be *potentially* optimized (actually nvm: https://www.peterbe.com/plog/fastest-filename-extension-in-python)
-		if ("-zxcvbn" not in file) and ("Results" not in file) and (file.endswith(".txt")):
+		if ( ("-zxcvbn" not in file) and ("Results" not in file) and 
+			('50k' in file) and (file.endswith(".txt")) and 
+			(('requirements') not in file ) and ('data' not in file) and (('Yahoo') in file) ) :
 			filesToBeDone.append(file)
 else:
 	#Create new string variable that contains root file path (from os.getcwd()) and joins '/'
