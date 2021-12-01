@@ -22,6 +22,7 @@ resultFiles = []
 
 try:
 	folderName = input("Enter folder NAME that contains the UNprocessed text files.\nCARE CAPITALIZATION AND SPELLING!: ")
+	resultfolderName = input("Enter name of the folder that will contain the results: )
 except:
 	#Trying to accept blank inputs, idk how otherwise, welcome 4 ideas
 	folderName = None
@@ -99,13 +100,14 @@ print('Total operation time in seconds: ', time.monotonic() - start_time)
 
 #Now, to clean up everything, move resultant files to a new folder (created if doesn't already exist)
 #resultDirectory = "Results1"
-
-if not os.path.exists('ResultsDirectory-v0'):
+tempdest2 = root + '/' + resultfolderName
+if not os.path.exists(tempdest2):
 	#Self-explanatory
-	os.mkdir('ResultsDirectory-v0')
+	os.mkdir('resultfolderName')
 
 files = os.listdir(root)
-destination1=root+"\ResultsDirectory-v0"
+#destination1=root+"\ResultsDirectory-v0"
+destination1 = tempdest2
 for f in files:
 	#Check cwd which is where the processed resultant files are stored
 	#temporarily...
@@ -116,7 +118,7 @@ for f in files:
 
 print("Moving files to results directory complete. Starting conversion to csv...\n")
 os.chdir(destination1)
-#exec(open('converter.py').read())
+exec(open('properconverter.py').read())
 print("Operation finished.")
 print('Total operation time in seconds: ', time.monotonic() - start_time)
 
