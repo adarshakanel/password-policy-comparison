@@ -22,4 +22,4 @@ _Brief explanation of files_
 - `properconverter.py`: Helper program that converts the resultant text files obtained after running zxcvbn and converts them to corresponding csv ( comma-separated values ) file for better analysis for component 4.
 - `test-calc.py`: Program that parses the resultant files and extracts meaningful statstical data including the average, median and standard deviation of the guesses, guesses_log10, scores attributes, and stores these results in `File_data.txt`.
 - `requirements.txt`: File that contains the various libraries and packages on which this project is dependent on.
-- 
+- *** `password_files` *** folder has the original password policy files (by default). These can be moved into the current working directory of multi.py if needed.
