@@ -117,11 +117,11 @@ for eachOldFile in filesToBeDone:
 	resultFiles.append(a)
 	#Do this for all old files and store the resultant files in the resultFiles list.
 
-print("List of files containing the result(s):" )
+print("\nList of files containing the result(s):" )
 print(resultFiles)
 
 limit = len(filesToBeDone)
-print("Number of eligible files in current directory to be processed: " + str(limit))
+print("\nNumber of eligible files in current directory to be processed: " + str(limit))
 
 #test1 = ['2-Amazon-50K.txt']
 
@@ -145,7 +145,7 @@ for f in files:
 		#Also copy the converter program to the resultant folder 
 		shutil.copy2(f, destination1)
 
-print("Moving files to results directory complete.\n Starting conversion to csv by running converter program.\n")
+print("\nMoving files to results directory complete.\n Starting conversion to csv by running converter program.\n")
 os.chdir(destination1)
 exec(open('properconverter.py').read())
 
