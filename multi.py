@@ -104,10 +104,10 @@ print(resultFiles)
 limit = len(filesToBeDone)
 print("Number of eligible files in current directory to be processed: " + str(limit))
 
-just4Yahoo = ['4-Yahoo-50K.txt']#Just for no.8
+#just4Yahoo = ['4-Yahoo-50K.txt']#Just for no.8
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
-	l = list(executor.map(lambda inputfiles: lmao(inputfiles), just4Yahoo))	
+	l = list(executor.map(lambda inputfiles: lmao(inputfiles), filesToBeDone))	
 	print("Writing to file complete. If available, moving on to next file.")
 		
 print('Total operation time in seconds: ', time.monotonic() - start_time)
