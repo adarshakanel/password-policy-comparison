@@ -1,18 +1,23 @@
-import os
-import shutil
-import traceback
-import sys
-import glob
-import time
-import threading
+import os													# functions for interacting with the operating system
+import shutil												# high-level operation for automating the process of copying and removal of files and directories
+import traceback											# standard interface to extract, format and print stack traces 
+import sys													# functions and variables used to manipulate different parts of the Python runtime environment.
+import glob													# 'global' -> File/Pathname pattern matching
+import time                                                 # time related stuff
+import threading											# For multithreading stuff
 from queue import Queue
-from zxcvbnagent import zxcvbn_result
-from time import perf_counter
-from readwrite import lmao
-from concurrent.futures import ThreadPoolExecutor
+from zxcvbnagent import zxcvbn_result						# Helper function that performs zxcvbn on each line of password and stores result (attributes) in a list
+from time import perf_counter								# Timing 
+from readwrite import lmao									# Helper function that reads a policy txt file, runs zxcvbn_result, stores result with a specified format in another txt file
+from concurrent.futures import ThreadPoolExecutor			# Multiprocessing
 import concurrent.futures
 
 start_time = time.monotonic()
+
+t = time.localtime()
+current_time = time.strftime("%H:%M:%S", t)
+print("Current time: ", current_time)
+#https://www.programiz.com/python-programming/datetime/current-time
 
 root = os.getcwd()	#type: String
 
@@ -45,14 +50,16 @@ else:
 	temp1 = root + '/' + folderName
 
 if (resultfolderName is None) or (len(resultfolderName) == 0) or (len(resultfolderName) == 1):
-	tempdest2 = root + '/' + resultfolderName
+	#Default, 'ResultsDirectory-temp'
+	tempdest2 = root + "\ResultsDirectory-temp"
 	if not os.path.exists(tempdest2):
 	#Creates new folder for storing results and cleaning up the working folder
 		os.mkdir('ResultsDirectory-temp')
 		
 
 else:
-	tempdest2 = root+"\ResultsDirectory-temp"
+	#User input -> Folder defined for storing results
+	tempdest2 = root + "/" + resultfolderName
 	if not os.path.exists(tempdest2):
 	#Creates new folder for storing results and cleaning up the working folder
 		os.mkdir(resultfolderName)
@@ -104,35 +111,38 @@ print(resultFiles)
 limit = len(filesToBeDone)
 print("Number of eligible files in current directory to be processed: " + str(limit))
 
-#just4Yahoo = ['4-Yahoo-50K.txt']#Just for no.8
+#test1 = ['2-Amazon-50K.txt']
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
 	l = list(executor.map(lambda inputfiles: lmao(inputfiles), filesToBeDone))	
-	print("Writing to file complete. If available, moving on to next file.")
+	#print("Writing to file complete. If available, moving on to next file.")
 		
-print('Total operation time in seconds: ', time.monotonic() - start_time)
+print('Operation time in seconds: ', time.monotonic() - start_time)
 
 #Now, to clean up everything, move resultant files to a new folder (created if doesn't already exist)
-#resultDirectory = "Results1"
 
 files = os.listdir(root)
-#destination1=root+"\ResultsDirectory-v0"
 destination1 = tempdest2
+#At this point, already defined based on user input i.e. destination1 --> ResultsDirectory-temp OR (UserDefinedFolderName)
+
 for f in files:
-	#Check cwd which is where the processed resultant files are stored
-	#temporarily...
-	if ("Results" in f):
+	#Check cwd which is where the processed resultant files are stored temporarily...
+	if ( ("Results" in f) and (f.endswith('.txt')) ):
 		shutil.move(f, destination1)
 	if f.startswith("properconverter"):
+		#Also copy the converter program to the resultant folder 
 		shutil.copy2(f, destination1)
 
-print("Moving files to results directory complete. Starting conversion to csv...\n")
+print("Moving files to results directory complete.\n Starting conversion to csv by running converter program.\n")
 os.chdir(destination1)
 exec(open('properconverter.py').read())
+
+t = time.localtime()
+current_time = time.strftime("%H:%M:%S", t)
+print("Current time at end of operation: ", current_time)
 print("Operation finished.")
 print('Total operation time in seconds: ', time.monotonic() - start_time)
-
-#All done!		
+#End
 
 #References:
 #Primary source --> https://github.com/dwolfhub/zxcvbn-python
