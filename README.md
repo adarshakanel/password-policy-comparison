@@ -12,9 +12,8 @@ _Installation and Usage instructions_:
 5. Click on and run multi.py
     - multi.py can also be run through the command line using simply: `multi.py` or `multi`. 
 6. Input the name of the folder containing the password files, leave blank or put 0 if the files are in the current directory.
-7. Resultant text files will be computed and moved a new subfolder, by default it's `ResultsDirectory-temp`.
+7. Resultant text files will be computed and moved to a new subfolder, by default it's `ResultsDirectory-temp`.
 8. A converter program handles the transmutation of text files to csv files for better parsing and further analysis.
-9. Whole process will take about ~9 minutes.
 
 _Brief explanation of files_
 - `multi.py`: The main program that obtains the required policy text files, parses the files line-by-line and uses the `zxcvbn` library to obtain necessary information about each password, stores them in a text file. Uses multiprocessing to increase efficiency and speed up I/O.
