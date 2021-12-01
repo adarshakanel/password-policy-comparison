@@ -1,15 +1,26 @@
-import os													# functions for interacting with the operating system
-import shutil												# high-level operation for automating the process of copying and removal of files and directories
-import traceback											# standard interface to extract, format and print stack traces 
-import sys													# functions and variables used to manipulate different parts of the Python runtime environment.
-import glob													# 'global' -> File/Pathname pattern matching
-import time                                                 # time related stuff
-import threading											# For multithreading stuff
+import os													
+# functions for interacting with the operating system
+import shutil												
+# high-level operation for automating the process of copying and removal of files and directories
+import traceback											
+# standard interface to extract, format and print stack traces 
+import sys													
+# functions and variables used to manipulate different parts of the Python runtime environment.
+import glob													
+# 'global' -> File/Pathname pattern matching
+import time                                                
+ # time related stuff
+import threading											
+# For multithreading stuff
 from queue import Queue
-from zxcvbnagent import zxcvbn_result						# Helper function that performs zxcvbn on each line of password and stores result (attributes) in a list
-from time import perf_counter								# Timing 
-from readwrite import lmao									# Helper function that reads a policy txt file, runs zxcvbn_result, stores result with a specified format in another txt file
-from concurrent.futures import ThreadPoolExecutor			# Multiprocessing
+from zxcvbnagent import zxcvbn_result						
+# Helper function that performs zxcvbn on each line of password and stores result (attributes) in a list
+from time import perf_counter								
+# Timing 
+from readwrite import lmao									
+# Helper function that reads a policy txt file, runs zxcvbn_result, stores result with a specified format in another txt file
+from concurrent.futures import ThreadPoolExecutor			
+# Multiprocessing
 import concurrent.futures
 
 start_time = time.monotonic()
