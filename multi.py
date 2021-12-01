@@ -123,7 +123,7 @@ for f in files:
 	#temporarily...
 	if ("Results" in f):
 		shutil.move(f, destination1)
-	if f.startswith("converter"):
+	if f.startswith("properconverter"):
 		shutil.copy2(f, destination1)
 
 print("Moving files to results directory complete. Starting conversion to csv...\n")
