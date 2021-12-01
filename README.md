@@ -1,5 +1,7 @@
 ### Analysis of 10 Password Policies using Dropbox's zxcvbn
-# _Usage_:
+
+
+_Installation and Usage instructions_:
 1. Download the repo from the main branch as a zip file.
 2. Unzip/Extract the downloaded file to a folder, which should be named as `password-policy-comparison` by default.
 3. Navigate to the extracted folder, enter the 'password-policy-comparison-main' subfolder and click on and run multi.py
