@@ -5,7 +5,7 @@
 [Python implementation that was employed in this project](https://github.com/dwolfhub/zxcvbn-python)
 
 _Installation and Usage instructions_:
-1. Download the repo from the main branch as a zip file.
+1. Download the repo from the main branch as a [zip file](https://github.com/adarshakanel/password-policy-comparison/releases/tag/v1).
     -  <img src = "sshots/stepbystep1.png" width = 310>
 2. Unzip/Extract the downloaded file to a folder, which should be named as `password-policy-comparison` by default.
 3. Navigate to the extracted folder and enter the 'password-policy-comparison-main' subfolder. 
