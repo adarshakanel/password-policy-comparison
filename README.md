@@ -7,12 +7,14 @@
 _Installation and Usage instructions_:
 1. Download the repo from the main branch as a zip file.
 2. Unzip/Extract the downloaded file to a folder, which should be named as `password-policy-comparison` by default.
-3. Navigate to the extracted folder, enter the 'password-policy-comparison-main' subfolder and click on and run multi.py
-    - multi.py can also be run through the command line. 
-4. Input the name of the folder containing the password files, leave blank or put 0 if the files are in the current directory.
-5. Resultant text files will be computed and moved a new subfolder, by default it's `'ResultsDirectory-v0`.
-6. A converter program handles the transmutation of text files to csv files for better parsing and further analysis.
-7. Whole process will take about ~9 minutes.
+3. Navigate to the extracted folder and enter the 'password-policy-comparison-main' subfolder. 
+4. Open a command line in this folder and run `pip install -r requirements.txt`.
+5. Click on and run multi.py
+    - multi.py can also be run through the command line using simply: `multi.py` or `multi`. 
+6. Input the name of the folder containing the password files, leave blank or put 0 if the files are in the current directory.
+7. Resultant text files will be computed and moved a new subfolder, by default it's `ResultsDirectory-temp`.
+8. A converter program handles the transmutation of text files to csv files for better parsing and further analysis.
+9. Whole process will take about ~9 minutes.
 
 _Brief explanation of files_
 - `multi.py`: The main program that obtains the required policy text files, parses the files line-by-line and uses the `zxcvbn` library to obtain necessary information about each password, stores them in a text file. Uses multiprocessing to increase efficiency and speed up I/O.
