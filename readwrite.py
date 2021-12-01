@@ -3,7 +3,7 @@ import mmap
 import os
 import shutil
 import concurrent.futures
-from just import zxcvbn_result
+from zxcvbnagent import zxcvbn_result
 from concurrent.futures import ThreadPoolExecutor
 from time import perf_counter
 
