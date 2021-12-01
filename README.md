@@ -16,6 +16,8 @@ _Installation and Usage instructions_:
 7. Resultant text files will be computed and moved to a new subfolder, by default it's `ResultsDirectory-temp`.
 8. A converter program handles the transmutation of text files to csv files for better parsing and further analysis.
     - <img src = "sshots/final.png" width = 999>
+    - Final folder with the resultant files:
+    - <img src = "sshots/final2.png" width = 450>
 
 _Brief explanation of files_
 - `multi.py`: The main program that obtains the required policy text files, parses the files line-by-line and uses the `zxcvbn` library to obtain necessary information about each password, stores them in a text file. Uses multiprocessing to increase efficiency and speed up I/O.
