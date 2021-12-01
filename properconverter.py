@@ -15,7 +15,6 @@ data1.to_csv('YahooCSV1.csv', index = None, header = False)
 df = pd.read_csv('YahooCSV1.csv')
 '''
 
-
 filetxtList = []
 for file in os.listdir(os.getcwd()):
 	#Find all the result text files in the cwd (which is the results subfolder from the root!), put them into the list
@@ -52,10 +51,8 @@ for eachTXT in filetxtList:
 
 #	total time taken for 9 files ~  3.875s
 
-
 elapsed_time = time.process_time() - t
-
-print("Total operation time: {}".format(elapsed_time))
+print("Total operation time for conversion process: {}".format(elapsed_time))
 '''
 References:
 1) https://stackoverflow.com/questions/49608656/saving-a-dataframe-to-csv-file-python
